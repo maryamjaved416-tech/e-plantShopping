@@ -1,42 +1,4 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { removeItem, updateQuantity } from './CartSlice';
-
-function CartItem() {
-  const cartItems = useSelector((state) => state.cart.items);
-  const dispatch = useDispatch();
-
-  const calculateTotalCost = (item) => {
-    const price = parseFloat(item.cost.replace('$', ''));
-    return (price * item.quantity).toFixed(2);
-  };
-
-  const calculateTotalAmount = () => {
-    return cartItems
-      .reduce((total, item) => {
-        const price = parseFloat(item.cost.replace('$', ''));
-        return total + price * item.quantity;
-      }, 0)
-      .toFixed(2);
-  };
-
-  const handleIncrement = (item) => {
-    dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
-  };
-
-  const handleDecrement = (item) => {
-    if (item.quantity > 1) {
-      dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
-    } else {
-      dispatch(removeItem(item.name));
-    }
-  };
-
-  const handleRemove = (item) => {
-    dispatch(removeItem(item.name));
-  };
-
-  return (
+return (
     <div className="cart-container">
       <h2>Shopping Cart</h2>
       {cartItems.map((item) => (
@@ -53,8 +15,13 @@ function CartItem() {
         </div>
       ))}
       <h3>Total: ${calculateTotalAmount()}</h3>
+      <div className="cart-actions">
+        <button onClick={() => alert('Checkout functionality coming soon!')}>
+          Checkout
+        </button>
+        <button onClick={() => alert('Continue Shopping')}>
+          Continue Shopping
+        </button>
+      </div>
     </div>
   );
-}
-
-export default CartItem;
